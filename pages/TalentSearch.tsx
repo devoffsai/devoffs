@@ -60,8 +60,8 @@ export const TalentSearch: React.FC = () => {
       
       {/* Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Talent Operations</h1>
-        <p className="text-slate-400">Search and verify engineering candidates using Skill DNA™ metrics.</p>
+        <h1 className="text-3xl font-bold text-white mb-2">Find people</h1>
+        <p className="text-slate-400">Search candidates using scores and activity.</p>
       </div>
 
       {/* Search & Filter Bar */}
@@ -73,7 +73,7 @@ export const TalentSearch: React.FC = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name, username, or skill keyword..."
+              placeholder="Search name, username, or skill..."
               className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
             />
           </div>
@@ -89,7 +89,7 @@ export const TalentSearch: React.FC = () => {
         {showFilters && (
           <div className="mt-4 pt-4 border-t border-slate-700 grid grid-cols-1 md:grid-cols-4 gap-6 animate-fade-in">
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 uppercase">Skill Domain</label>
+              <label className="text-xs font-bold text-slate-400 uppercase">Domain</label>
               <select 
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
@@ -101,7 +101,7 @@ export const TalentSearch: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 uppercase">Min Skill DNA ({minDNA})</label>
+              <label className="text-xs font-bold text-slate-400 uppercase">Min score ({minDNA})</label>
               <input 
                 type="range" min="0" max="100" value={minDNA} onChange={(e) => setMinDNA(Number(e.target.value))}
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
@@ -242,7 +242,7 @@ export const TalentSearch: React.FC = () => {
                <div className="space-y-6">
                   {selectedCandidate.isCertified && (
                     <div className="bg-yellow-900/20 text-yellow-400 p-3 rounded-lg border border-yellow-500/30 text-center font-bold text-sm flex items-center justify-center gap-2">
-                       <Award size={16} /> Certified Engineer
+                       <Award size={16} /> Certified
                     </div>
                   )}
 
@@ -252,7 +252,7 @@ export const TalentSearch: React.FC = () => {
                   </div>
                   
                   <div>
-                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Verified Stats</h3>
+                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Stats</h3>
                      <div className="grid grid-cols-2 gap-3">
                         <div className="bg-slate-800 p-3 rounded-lg border border-slate-700 text-center">
                            <div className="text-xl font-bold text-white">{selectedCandidate.stats?.trialsCompleted || 0}</div>
@@ -264,7 +264,7 @@ export const TalentSearch: React.FC = () => {
                         </div>
                         <div className="bg-slate-800 p-3 rounded-lg border border-slate-700 text-center col-span-2">
                            <div className="text-xl font-bold text-green-400">Top {selectedCandidate.stats?.topPercentile || 100}%</div>
-                           <div className="text-[10px] text-slate-400">Global Ranking</div>
+                           <div className="text-[10px] text-slate-400">Rank</div>
                         </div>
                      </div>
                   </div>
@@ -275,7 +275,7 @@ export const TalentSearch: React.FC = () => {
             <div className="flex-1 p-8 bg-slate-800 overflow-y-auto">
                <div className="mb-8">
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                     <ShieldCheck className="text-cyan-400" /> Skill DNA Analysis
+                     <ShieldCheck className="text-cyan-400" /> Score details
                   </h3>
                   <div className="flex flex-col md:flex-row items-center gap-8 bg-slate-900/50 p-6 rounded-xl border border-slate-700">
                      <div className="w-full md:w-1/2">
@@ -286,13 +286,13 @@ export const TalentSearch: React.FC = () => {
                      </div>
                      <div className="w-full md:w-1/2 space-y-3">
                         <div className="text-sm text-slate-300">
-                           <span className="text-slate-500">Primary Strength:</span> <span className="text-white font-bold">{getRecentDomain(selectedCandidate)}</span>
+                           <span className="text-slate-500">Main skill:</span> <span className="text-white font-bold">{getRecentDomain(selectedCandidate)}</span>
                         </div>
                         <div className="text-sm text-slate-300">
-                           <span className="text-slate-500">Tier Classification:</span> <span className="text-white font-bold">{getSkillTier(getRecentDomain(selectedCandidate) as SkillDomain)}</span>
+                           <span className="text-slate-500">Tier:</span> <span className="text-white font-bold">{getSkillTier(getRecentDomain(selectedCandidate) as SkillDomain)}</span>
                         </div>
                         <button className="w-full mt-4 py-2 bg-slate-700 hover:bg-slate-600 text-xs text-white rounded border border-slate-600 flex items-center justify-center gap-2">
-                           <Download size={14} /> Download Full Technical Report
+                           <Download size={14} /> Download report
                         </button>
                      </div>
                   </div>
@@ -300,7 +300,7 @@ export const TalentSearch: React.FC = () => {
 
                <div>
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                     <Briefcase className="text-purple-400" /> Trial History & Projects
+                     <Briefcase className="text-purple-400" /> History
                   </h3>
                   <div className="space-y-3">
                      {selectedCandidate.history && selectedCandidate.history.length > 0 ? (
@@ -317,12 +317,12 @@ export const TalentSearch: React.FC = () => {
                            </div>
                         ))
                      ) : (
-                        <div className="text-slate-500 text-sm italic">No public trial history available.</div>
+                        <div className="text-slate-500 text-sm italic">No history to show.</div>
                      )}
                   </div>
                   
                   <button className="w-full mt-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-900/20 flex items-center justify-center gap-2">
-                     <Zap size={18} /> Invite to Technical Screen
+                     <Zap size={18} /> Invite
                   </button>
                </div>
             </div>

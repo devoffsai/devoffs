@@ -327,7 +327,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
            </div>
            <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 mb-8 relative">
               <div className="absolute top-0 right-0 p-4 opacity-5"><ShieldCheck size={100} /></div>
-              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Board Evaluation Summary</h3>
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Quick notes</h3>
               <p className="text-slate-200 leading-relaxed italic relative z-10">"{finalScore.feedback}"</p>
            </div>
            <button onClick={() => navigate('/')} className="w-full py-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl text-lg transition-all shadow-xl shadow-cyan-900/20">Return to Dashboard</button>
@@ -364,12 +364,12 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                   <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover transform scale-x-[-1]" />
                   <div className="absolute top-2 left-2 flex gap-1 items-center bg-black/40 px-2 py-0.5 rounded-full border border-white/10">
                      <div className="w-1 h-1 bg-red-600 rounded-full animate-pulse"></div>
-                     <span className="text-[8px] text-white font-black uppercase tracking-tighter">Secure Link</span>
+                     <span className="text-[8px] text-white font-black uppercase tracking-tighter">LIVE</span>
                   </div>
               </div>
               <div className="flex-1 p-6 overflow-y-auto space-y-6">
                  <div>
-                    <h3 className="text-[10px] font-bold text-slate-600 uppercase mb-3 tracking-widest">Environmental Sensors</h3>
+                    <h3 className="text-[10px] font-bold text-slate-600 uppercase mb-3 tracking-widest">Camera checks</h3>
                     <div className="grid grid-cols-3 gap-2">
                        <div className="bg-slate-800/50 p-2 rounded-lg border border-slate-700 flex flex-col items-center">
                           <Sun size={14} className="text-green-400 mb-1" />
@@ -387,11 +387,11 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                  </div>
 
                  <div>
-                    <h3 className="text-[10px] font-bold text-slate-600 uppercase mb-3 tracking-widest">Integrity Violation Log</h3>
+                    <h3 className="text-[10px] font-bold text-slate-600 uppercase mb-3 tracking-widest">Rule breaks</h3>
                     <div className="space-y-1.5">
                        {violations.length === 0 ? (
                          <div className="text-[9px] text-green-500 flex items-center gap-2 bg-green-500/5 p-3 rounded-lg border border-green-500/20 font-bold">
-                            <ShieldCheck size={12}/> CHANNEL SECURE
+                            <ShieldCheck size={12}/> All good
                          </div>
                        ) : (
                          violations.map((v, i) => (
@@ -406,7 +406,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
               </div>
               <div className="p-6 bg-slate-900 border-t border-slate-800">
                  <button onClick={handleSectionSubmit} className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-cyan-900/20 transform active:scale-95">
-                    Submit Part &rarr;
+                    Next &rarr;
                  </button>
               </div>
            </div>
@@ -417,7 +417,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
 
 const MCQSection = ({ questions, setQuestions }: { questions: ExamMCQ[], setQuestions: any }) => (
   <div className="max-w-3xl mx-auto space-y-12 pb-20">
-     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 1: Nuance Retrieval</h2><p className="text-slate-500">20 Technical MCQs with focus on obscure internals and edge cases.</p></div>
+     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 1: Quick MCQs</h2><p className="text-slate-500">20 questions. Some are tricky.</p></div>
      {questions.map((q, i) => (
         <div key={q.id} className="bg-slate-800/40 p-8 rounded-3xl border border-slate-800/50 backdrop-blur-sm">
            <h3 className="text-xl font-medium text-white mb-6 leading-relaxed"><span className="text-slate-600 font-mono mr-3 text-sm">{i+1}.</span> {q.question}</h3>
@@ -436,11 +436,11 @@ const MCQSection = ({ questions, setQuestions }: { questions: ExamMCQ[], setQues
 
 const TheorySection = ({ questions, setQuestions }: { questions: ExamTheory[], setQuestions: any }) => (
   <div className="max-w-3xl mx-auto space-y-12 pb-20">
-     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 2: Architectural Defense</h2><p className="text-slate-500">30 Subjective Technical Response Prompts requiring architectural depth.</p></div>
+     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 2: Short answers</h2><p className="text-slate-500">30 questions. Explain your thinking.</p></div>
      {questions.map((q, i) => (
         <div key={q.id} className="bg-slate-800/40 p-8 rounded-3xl border border-slate-800/50">
            <h3 className="text-lg font-medium text-white mb-6 leading-relaxed"><span className="text-slate-600 font-mono mr-3 text-sm">{i+1}.</span> {q.question}</h3>
-           <textarea className="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-white focus:border-cyan-500 outline-none resize-none font-mono text-sm shadow-inner" placeholder="Provide detailed architectural reasoning and trade-off analysis..." value={q.userAnswer || ""} onChange={(e) => { const newQ = [...questions]; newQ[i].userAnswer = e.target.value; setQuestions(newQ); }} />
+           <textarea className="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-white focus:border-cyan-500 outline-none resize-none font-mono text-sm shadow-inner" placeholder="Write your answer here..." value={q.userAnswer || ""} onChange={(e) => { const newQ = [...questions]; newQ[i].userAnswer = e.target.value; setQuestions(newQ); }} />
         </div>
      ))}
   </div>
@@ -448,11 +448,11 @@ const TheorySection = ({ questions, setQuestions }: { questions: ExamTheory[], s
 
 const PracticalSection = ({ tasks, setTasks }: { tasks: ExamPractical[], setTasks: any }) => (
   <div className="max-w-4xl mx-auto space-y-12 pb-20">
-     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 3: Production Realism</h2><p className="text-slate-500">10 Complex System Implementation Tasks evaluated on correctness and performance.</p></div>
+     <div className="border-b border-slate-800 pb-6"><h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Part 3: Coding tasks</h2><p className="text-slate-500">10 tasks. Write code that works.</p></div>
      {tasks.map((t, i) => (
         <div key={t.id} className="bg-slate-800 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
            <div className="p-6 bg-slate-900/80 border-b border-slate-800"><h3 className="text-xl font-bold text-white mb-4"><span className="text-slate-600 font-mono mr-3 text-sm">{i+1}.</span> {t.task}</h3><div className="flex gap-2 flex-wrap">{t.constraints.map((c, idx) => <span key={idx} className="text-[10px] bg-red-950 text-red-400 px-3 py-1 rounded-full border border-red-500/20 uppercase font-black tracking-widest">{c}</span>)}</div></div>
-           <textarea className="w-full h-96 bg-[#0a0f1e] text-cyan-100 font-mono text-sm p-8 outline-none resize-y shadow-inner leading-relaxed" placeholder="// Implement industrial-grade solution here...&#10;// Handle concurrency, memory safety, and edge cases." spellCheck={false} value={t.userAnswer || ""} onChange={(e) => { const newT = [...tasks]; newT[i].userAnswer = e.target.value; setTasks(newT); }} />
+           <textarea className="w-full h-96 bg-[#0a0f1e] text-cyan-100 font-mono text-sm p-8 outline-none resize-y shadow-inner leading-relaxed" placeholder="// Write your solution here...\n// Make sure it handles edge cases." spellCheck={false} value={t.userAnswer || ""} onChange={(e) => { const newT = [...tasks]; newT[i].userAnswer = e.target.value; setTasks(newT); }} />
         </div>
      ))}
   </div>

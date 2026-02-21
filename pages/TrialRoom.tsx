@@ -328,7 +328,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-6">
          <div className="w-16 h-16 border-4 border-slate-700 border-t-purple-500 rounded-full animate-spin"></div>
-         <h2 className="text-2xl font-bold text-white">Analyzing Skill DNA...</h2>
+         <h2 className="text-2xl font-bold text-white">Checking your answers...</h2>
       </div>
     );
   }
@@ -348,18 +348,18 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
               {isRejected ? <ShieldAlert size={32} /> : isFailed ? <AlertTriangle size={32} /> : <CheckCircle size={32} />}
            </div>
            <h1 className="text-3xl font-bold text-white">
-             {isRejected ? 'Verification Rejected' : isFailed ? 'Skill Not Verified' : 'Trial Passed'}
+             {isRejected ? "We couldn't count this" : isFailed ? 'Not passed' : 'Passed'}
            </h1>
            <p className="text-slate-400">
-             {isRejected ? 'Integrity violation detected.' : 
-              isFailed ? 'Score below 60% threshold.' :
-              'Verified performance report.'}
+             {isRejected ? 'Some rules were broken.' : 
+              isFailed ? 'Score was below 60%.' :
+              "Nice. Here's your score."}
            </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
            <div className={`bg-slate-800 p-6 rounded-2xl border ${isRejected ? 'border-red-900/50' : isFailed ? 'border-orange-900/50' : 'border-slate-700'}`}>
-              <h3 className="text-lg font-bold text-white mb-4">Skill DNA™ Result</h3>
+              <h3 className="text-lg font-bold text-white mb-4">Your result</h3>
               
               {isRejected ? (
                 <div className="flex flex-col items-center justify-center h-[300px] text-center space-y-4">
@@ -381,7 +381,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
                   isRejected ? 'bg-red-950/20 border-red-900/50' : 
                   'bg-slate-800 border-slate-700'
                 }`}>
-                <h3 className="text-lg font-bold mb-2 text-white">Analysis</h3>
+                <h3 className="text-lg font-bold mb-2 text-white">Notes</h3>
                 <p className="text-slate-300 leading-relaxed">{session.feedback}</p>
               </div>
 
@@ -391,7 +391,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
                   isRejected ? 'bg-slate-700 hover:bg-slate-600' : 'bg-cyan-600 hover:bg-cyan-500'
                 }`}
               >
-                Return to Dashboard
+                Back to dashboard
               </button>
            </div>
         </div>
@@ -409,7 +409,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
            <div className="h-6 w-px bg-slate-700"></div>
            <div className="flex items-center gap-1 text-xs font-bold text-slate-500 uppercase tracking-widest">
               <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-              Live Proctoring
+              Camera check
            </div>
         </div>
         <div className={`flex items-center gap-2 font-mono text-xl font-bold ${timeLeft < 300 ? 'text-red-500 animate-pulse' : 'text-white'}`}>
@@ -443,7 +443,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
               </div>
 
               <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-700 border-dashed">
-                 <p className="text-xs text-slate-500">Provide architectural reasoning and implementation details. Avoid shallow summaries.</p>
+                 <p className="text-xs text-slate-500">Explain your thinking. Add details. Don't keep it too short.</p>
               </div>
            </div>
            {/* PIP PROCTOR */}
@@ -453,9 +453,9 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
                  <div className="absolute top-1 left-1 bg-red-600 w-1.5 h-1.5 rounded-full animate-pulse"></div>
               </div>
               <div className="flex-1">
-                 <div className="text-[10px] font-bold text-slate-500 uppercase mb-1">Environmental Integrity</div>
+                 <div className="text-[10px] font-bold text-slate-500 uppercase mb-1">Camera status</div>
                  <div className="flex items-center gap-2">
-                    <div className="px-2 py-0.5 bg-green-900/20 text-green-400 text-[10px] font-bold rounded border border-green-500/20">SECURE</div>
+                    <div className="px-2 py-0.5 bg-green-900/20 text-green-400 text-[10px] font-bold rounded border border-green-500/20">OK</div>
                     {antiCheat.environmentViolations && antiCheat.environmentViolations.length > 0 && (
                       <div className="flex items-center gap-1 text-[10px] text-red-400 animate-pulse font-bold">
                          <AlertTriangle size={10} /> Alert
@@ -484,7 +484,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
            {currentQuestionIdx === questions.length - 1 && (
               <div className="absolute bottom-6 right-6 z-10">
                  <button onClick={handleSubmit} className="bg-green-600 hover:bg-green-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-green-900/30 flex items-center gap-2 transform active:scale-95 transition-transform">
-                   Finalize Verified Solution <Send size={18} />
+                   Finish & submit <Send size={18} />
                  </button>
               </div>
            )}

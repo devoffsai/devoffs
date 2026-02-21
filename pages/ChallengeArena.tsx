@@ -408,10 +408,10 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-900/30 border border-purple-500 mb-6 text-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
              <Zap size={48} />
            </div>
-           <h1 className="text-4xl font-bold text-white mb-4">Open Race Arena</h1>
+           <h1 className="text-4xl font-bold text-white mb-4">Arena</h1>
            <p className="text-purple-200 text-lg max-w-2xl mx-auto mb-8">
-             Compete in real-time coding challenges. 
-             Sync your proctor to ensure fair competition.
+             Quick coding races with other people.
+             Turn on your camera so matches stay fair.
            </p>
 
            <div className="max-w-lg mx-auto bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-xl mb-12">
@@ -421,7 +421,7 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
                      {!hasPermissions && <div className="absolute inset-0 flex items-center justify-center"><Video size={16} className="text-slate-700"/></div>}
                   </div>
                   <div className="flex-1 text-left">
-                     <div className="text-sm font-bold text-white mb-1">Proctor Calibration</div>
+                     <div className="text-sm font-bold text-white mb-1">Quick camera check</div>
                      <div className="flex gap-2">
                         <div className={`w-3 h-3 rounded-full ${envCheck?.lighting ? 'bg-green-500' : 'bg-slate-700'}`} title="Lighting"></div>
                         <div className={`w-3 h-3 rounded-full ${envCheck?.singlePerson ? 'bg-green-500' : 'bg-slate-700'}`} title="Identity"></div>
@@ -429,10 +429,10 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
                      </div>
                   </div>
                   {!hasPermissions ? (
-                    <button onClick={startCamera} className="bg-cyan-600 hover:bg-cyan-500 text-white text-xs px-4 py-2 rounded-lg font-bold">Sync Feed</button>
+                    <button onClick={startCamera} className="bg-cyan-600 hover:bg-cyan-500 text-white text-xs px-4 py-2 rounded-lg font-bold">Turn on camera</button>
                   ) : (
                     <button onClick={analyzeEnv} disabled={isAnalyzingEnv} className="bg-slate-700 hover:bg-slate-600 text-white text-xs px-4 py-2 rounded-lg font-bold">
-                       {isAnalyzingEnv ? <Loader2 size={12} className="animate-spin"/> : "Scan"}
+                       {isAnalyzingEnv ? <Loader2 size={12} className="animate-spin"/> : "Run check"}
                     </button>
                   )}
               </div>
@@ -443,10 +443,10 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
           <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-8">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Users className="text-cyan-400" /> Public Matchmaking
+              <Users className="text-cyan-400" /> Public match
             </h2>
             <div className="space-y-4">
-              <label className="text-sm text-slate-400 block mb-2">Select Domain</label>
+              <label className="text-sm text-slate-400 block mb-2">Pick a domain</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar border border-slate-700/50 rounded-lg p-2 bg-slate-900/30">
                 {Object.values(SkillDomain).map(d => (
                   <button key={d} onClick={() => setPublicDomain(d)} className={`p-2 rounded-lg text-xs text-left border transition-all truncate ${publicDomain === d ? 'bg-purple-900/40 border-purple-500 text-purple-300' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'}`} title={d}>{d}</button>
@@ -457,18 +457,18 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
                 disabled={!isReady}
                 className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-900/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <Zap size={20} /> Find Match
+                <Zap size={20} /> Find a match
               </button>
             </div>
           </div>
 
           <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-8">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Share2 className="text-green-400" /> Private Duel
+              <Share2 className="text-green-400" /> Private match
             </h2>
             <div className="space-y-6">
               <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <label className="text-sm text-slate-400 block mb-2">Join Code</label>
+                <label className="text-sm text-slate-400 block mb-2">Enter code</label>
                 <div className="flex gap-2">
                   <input type="text" value={joinInput} onChange={(e) => setJoinInput(e.target.value.toUpperCase())} placeholder="ENTER CODE" className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-white font-mono tracking-widest placeholder-slate-600 focus:border-green-500 outline-none" maxLength={6} />
                   <button onClick={handleJoinSession} disabled={joinInput.length < 6 || !isReady} className="bg-green-600 hover:bg-green-500 disabled:bg-slate-700 disabled:text-slate-500 text-white px-6 rounded-lg font-bold transition-colors">Join</button>
@@ -476,16 +476,16 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
               </div>
               <div className="relative"><div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-700"></div></div><div className="relative flex justify-center text-sm"><span className="px-2 bg-slate-800 text-slate-500">or</span></div></div>
               <div className="space-y-2">
-                 <label className="text-sm text-slate-400 block">Host a Challenge</label>
+                 <label className="text-sm text-slate-400 block">Start a new one</label>
                  <select value={privateDomain} onChange={(e) => setPrivateDomain(e.target.value as SkillDomain)} className="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white focus:border-green-500 outline-none">
                     {Object.values(SkillDomain).map(d => <option key={d} value={d}>{d}</option>)}
                  </select>
               </div>
-              <button onClick={handleCreatePrivateSession} disabled={!isReady} className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl border border-slate-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50">Create New Session</button>
+              <button onClick={handleCreatePrivateSession} disabled={!isReady} className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-xl border border-slate-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50">Create session</button>
             </div>
           </div>
         </div>
-        <button onClick={() => navigate('/')} className="text-slate-500 hover:text-white block mx-auto transition-colors">&larr; Return to Dashboard</button>
+        <button onClick={() => navigate('/')} className="text-slate-500 hover:text-white block mx-auto transition-colors">&larr; Back to dashboard</button>
       </div>
     );
   }
@@ -495,16 +495,16 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
       <div className="max-w-4xl mx-auto py-12 animate-fade-in text-center relative overflow-hidden rounded-3xl mt-8">
         <div className="absolute inset-0 bg-slate-900"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/40 via-slate-900 to-slate-950"></div></div>
         <div className="relative z-10 p-8">
-            <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Lobby Active</h2>
+            <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Lobby</h2>
             <div className="bg-black/40 backdrop-blur-md p-8 rounded-2xl border border-purple-500/30 mb-8 max-w-lg mx-auto shadow-2xl">
-               <div className="text-xs text-purple-400 mb-3 uppercase tracking-[0.2em] font-bold">Session Code</div>
+               <div className="text-xs text-purple-400 mb-3 uppercase tracking-[0.2em] font-bold">Code</div>
                <div onClick={copyCodeToClipboard} className="inline-flex items-center gap-6 bg-purple-900/20 px-10 py-6 rounded-xl border border-dashed border-purple-400/50 cursor-pointer hover:bg-purple-900/30 transition-all group hover:scale-105">
                  <span className="text-5xl font-mono font-bold text-white tracking-[0.2em]">{sessionCode}</span>
                  <Copy size={24} className="text-purple-400 group-hover:text-white" />
                </div>
             </div>
             <div className="bg-slate-800/60 backdrop-blur p-6 rounded-2xl border border-slate-700/50 mb-12 max-w-2xl mx-auto">
-               <h3 className="text-white font-bold mb-6 flex items-center justify-center gap-2 border-b border-slate-700 pb-4"><Users size={20} className="text-cyan-400" /> Participants ({participants?.length || 0})</h3>
+               <h3 className="text-white font-bold mb-6 flex items-center justify-center gap-2 border-b border-slate-700 pb-4"><Users size={20} className="text-cyan-400" /> Players ({participants?.length || 0})</h3>
                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                  {participants.map(p => (
                    <div key={p.id} className="flex items-center gap-3 p-3 bg-slate-700/50 rounded-lg border border-slate-600/50">
@@ -517,17 +517,17 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
             {isHost ? (
                <div className="space-y-4">
                  {isGeneratingTask ? (
-                    <div className="flex items-center justify-center gap-3 text-purple-400 animate-pulse font-medium"><Loader2 size={20} className="animate-spin" /> Generating Challenge Scenarios...</div>
+                    <div className="flex items-center justify-center gap-3 text-purple-400 animate-pulse font-medium"><Loader2 size={20} className="animate-spin" /> Making a challenge...</div>
                  ) : (
                     <button onClick={handleStartPrivateRace} disabled={!generatedTaskReady} className="px-12 py-5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white text-xl font-bold rounded-2xl shadow-xl shadow-green-900/40 transition-all flex items-center justify-center gap-3 mx-auto transform hover:scale-105 active:scale-95 disabled:opacity-50">
-                      <Play size={24} fill="currentColor" /> START RACE
+                      <Play size={24} fill="currentColor" /> Start
                     </button>
                  )}
                </div>
             ) : (
-              <div className="flex flex-col items-center justify-center gap-4 text-slate-400 animate-pulse"><Loader2 size={32} className="animate-spin text-purple-500" /> <span className="font-medium">Waiting for host to start the engine...</span></div>
+              <div className="flex flex-col items-center justify-center gap-4 text-slate-400 animate-pulse"><Loader2 size={32} className="animate-spin text-purple-500" /> <span className="font-medium">Waiting for the host to start...</span></div>
             )}
-            <button onClick={handleLeaveLobby} className="mt-12 text-slate-500 hover:text-white text-sm font-medium transition-colors border-b border-transparent hover:border-white pb-1">Leave Lobby</button>
+            <button onClick={handleLeaveLobby} className="mt-12 text-slate-500 hover:text-white text-sm font-medium transition-colors border-b border-transparent hover:border-white pb-1">Leave</button>
         </div>
       </div>
     );
@@ -537,8 +537,8 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-6">
         <Loader2 size={64} className="text-purple-500 animate-spin" />
-        <h2 className="text-2xl font-bold text-white">Finding Opponents...</h2>
-        <p className="text-slate-400">Matching you with similarly skilled engineers.</p>
+        <h2 className="text-2xl font-bold text-white">Finding someone...</h2>
+        <p className="text-slate-400">Hold on a sec.</p>
       </div>
     );
   }
@@ -548,7 +548,7 @@ export const ChallengeArena: React.FC<Props> = ({ user }) => {
      return (
         <div className="max-w-2xl mx-auto py-12 text-center animate-fade-in">
            <Trophy size={80} className="text-yellow-400 mx-auto mb-6" />
-           <h1 className="text-4xl font-bold text-white mb-2">Race Finished!</h1>
+           <h1 className="text-4xl font-bold text-white mb-2">Done!</h1>
            <p className="text-2xl text-purple-400 font-bold mb-8">You placed #{myRank}</p>
            <div className="bg-slate-800 rounded-2xl p-6 border border-slate-700 mb-8">
               {participants.sort((a,b) => b.progress - a.progress).map((p, i) => (

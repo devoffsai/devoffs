@@ -31,7 +31,7 @@ export const Leaderboard: React.FC<Props> = ({ user }) => {
 
   const getMetricLabel = (m: LeaderboardMetric) => {
     switch (m) {
-      case 'skill_dna': return 'Skill DNA™';
+      case 'skill_dna': return 'Score';
       case 'arena_wins': return 'Arena Wins';
       case 'trials_completed': return 'Trials Done';
     }
@@ -63,8 +63,8 @@ export const Leaderboard: React.FC<Props> = ({ user }) => {
                <Trophy size={28} />
              </div>
              <div>
-               <h1 className="text-3xl font-bold text-white">Global Leaderboard</h1>
-               <p className="text-slate-400">Top engineering talent ranked by verified proof.</p>
+               <h1 className="text-3xl font-bold text-white">Leaderboard</h1>
+               <p className="text-slate-400">Top people right now.</p>
              </div>
            </div>
         </div>
@@ -77,7 +77,7 @@ export const Leaderboard: React.FC<Props> = ({ user }) => {
            </div>
            <div className="h-10 w-px bg-slate-700"></div>
            <div className="text-right">
-             <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Score</div>
+             <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Points</div>
              <div className="text-2xl font-bold text-cyan-400">{entries.find(e => e.isCurrentUser)?.score || 0}</div>
            </div>
         </div>
