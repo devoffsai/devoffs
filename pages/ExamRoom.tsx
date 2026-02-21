@@ -57,7 +57,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
       setHasPermissions(true);
       if (videoRef.current) videoRef.current.srcObject = mediaStream;
     } catch (e) {
-      alert("Camera required for exam proctoring.");
+      alert("Please allow camera access to start the exam.");
     }
   };
 
@@ -77,7 +77,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
         setEnvCheck(result);
       }
     } catch (e) {
-      setEnvCheck({ lighting: false, singlePerson: false, noDevices: false, feedback: "Neural analysis failed. Please check your camera feed." });
+      setEnvCheck({ lighting: false, singlePerson: false, noDevices: false, feedback: "Scan failed. Please check your camera." });
     } finally {
       setIsAnalyzingEnv(false);
     }
@@ -89,9 +89,9 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
 
   useEffect(() => {
     if (!['mcq', 'theory', 'practical'].includes(status)) return;
-    const handleFocusLoss = () => addViolation("Focus Lost: Outside Window Interaction");
-    const handleVisibility = () => { if (document.hidden) addViolation("Tab Visibility Violation"); };
-    const preventCopy = (e: any) => { e.preventDefault(); addViolation("Clipboard Violation"); };
+    const handleFocusLoss = () => addViolation("You left the exam window.");
+    const handleVisibility = () => { if (document.hidden) addViolation("You switched tabs."); };
+    const preventCopy = (e: any) => { e.preventDefault(); addViolation("Copy/paste isn't allowed."); };
     
     const camInterval = setInterval(async () => {
       if (videoRef.current && videoRef.current.readyState === 4) {
@@ -105,7 +105,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
              const base64 = canvas.toDataURL('image/jpeg', 0.5); 
              analyzeEnvironmentSnapshot(base64).then(result => {
                 if (!result.lighting || !result.singlePerson || !result.noDevices) {
-                   addViolation(result.feedback || "Robotic Proctor: Environmental Security Violation");
+                   addViolation(result.feedback || "Camera check failed.");
                 }
              });
            }
@@ -205,18 +205,18 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
 
     return (
       <div className="max-w-6xl mx-auto py-12 animate-fade-in">
-         <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3"><Award className="text-yellow-500" /> Proctor Calibration</h1>
+         <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3"><Award className="text-yellow-500" /> Quick camera check</h1>
          <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-6">
                 <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                    <h3 className="text-lg font-bold text-white mb-4">Security Parameters</h3>
+                    <h3 className="text-lg font-bold text-white mb-4">What we're checking</h3>
                     <div className="space-y-4">
                         <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.lighting ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
-                            <div className="flex items-center gap-3"><Sun size={20}/> <span className="text-sm font-bold uppercase">Optimal Lighting</span></div>
+                            <div className="flex items-center gap-3"><Sun size={20}/> <span className="text-sm font-bold uppercase">Good lighting</span></div>
                             {envCheck?.lighting && <CheckCircle size={16}/>}
                         </div>
                         <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.singlePerson ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
-                            <div className="flex items-center gap-3"><UserIcon size={20}/> <span className="text-sm font-bold uppercase">Single Candidate</span></div>
+                            <div className="flex items-center gap-3"><UserIcon size={20}/> <span className="text-sm font-bold uppercase">One person</span></div>
                             {envCheck?.singlePerson && <CheckCircle size={16}/>}
                         </div>
                         <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.noDevices ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
@@ -228,7 +228,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                 </div>
 
                 <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                   <label className="block text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-3">SELECT EXAM DOMAIN</label>
+                   <label className="block text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-3">PICK A DOMAIN</label>
                    <select className="w-full bg-slate-900 border border-slate-600 rounded-lg p-4 text-white focus:border-yellow-500 outline-none transition-all" onChange={(e) => setDomain(e.target.value as SkillDomain)} value={domain || ""}>
                      <option value="" disabled>Choose Domain...</option>
                      {Object.values(SkillDomain).map(d => <option key={d} value={d}>{d}</option>)}
@@ -242,12 +242,12 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                    {!hasPermissions && (
                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md">
                            <Video size={32} className="text-slate-600 mb-2" />
-                           <span className="text-slate-400 text-sm font-medium uppercase tracking-widest">Feed Sync Required</span>
+                           <span className="text-slate-400 text-sm font-medium uppercase tracking-widest">Camera needed</span>
                        </div>
                    )}
                    {hasPermissions && (
                        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-red-600/20 text-red-500 rounded border border-red-500/30 text-[10px] font-bold animate-pulse">
-                          <RotateCw size={10} /> PROCTOR LIVE
+                          <RotateCw size={10} /> LIVE
                        </div>
                    )}
                </div>
@@ -255,7 +255,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                <div className="space-y-4">
                   {!hasPermissions ? (
                       <button onClick={startCamera} className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2">
-                          <Video size={18} /> Initiate Secure Feed
+                          <Video size={18} /> Turn on camera
                       </button>
                   ) : (
                       <button 
@@ -264,7 +264,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                          className="w-full py-4 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl border border-slate-600 transition-all flex items-center justify-center gap-2"
                       >
                         {isAnalyzingEnv ? <Loader2 size={18} className="animate-spin" /> : <ShieldCheck size={18} />}
-                        {envCheck ? "Recalibrate Sensor" : "Perform Security Scan"}
+                        {envCheck ? "Run check again" : "Run quick check"}
                       </button>
                   )}
 
@@ -273,10 +273,10 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
                     onClick={startExam} 
                     className="w-full py-6 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white text-xl font-bold rounded-2xl shadow-xl shadow-orange-900/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-95"
                   >
-                      BEGIN CERTIFICATION EXAM
+                      Start exam
                   </button>
                   <p className="text-[10px] text-slate-500 text-center uppercase tracking-[0.2em] font-bold">
-                    Zero-Tolerance High Stakes Environment
+                    Rules are strict (no tabs, no copy/paste)
                   </p>
                </div>
             </div>
@@ -289,7 +289,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
      return (
         <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
            <Loader2 size={64} className="text-yellow-500 animate-spin" />
-           <h2 className="text-2xl font-bold text-white tracking-tight">{status === 'loading' ? "Synchronizing High-Stakes Modules..." : "Robotic Board Grading Active..."}</h2>
+           <h2 className="text-2xl font-bold text-white tracking-tight">{status === 'loading' ? "Loading the exam..." : "Grading your answers..."}</h2>
         </div>
      );
   }
@@ -298,12 +298,12 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
      return (
         <div className="max-w-2xl mx-auto py-20 text-center animate-fade-in">
            <ShieldAlert size={80} className="text-red-500 mx-auto mb-6" />
-           <h1 className="text-4xl font-bold text-white mb-4">Exam Hall Ejection</h1>
+           <h1 className="text-4xl font-bold text-white mb-4">Exam stopped</h1>
            <div className="bg-red-900/20 border border-red-500/50 p-6 rounded-2xl mb-8 text-left">
-              <h3 className="text-red-400 font-bold mb-4 uppercase text-xs tracking-widest border-b border-red-900/50 pb-2">Integrity Violations Log</h3>
+              <h3 className="text-red-400 font-bold mb-4 uppercase text-xs tracking-widest border-b border-red-900/50 pb-2">What went wrong</h3>
               {violations.map((v, i) => <div key={i} className="text-red-200 text-sm mb-2 flex items-center gap-3"><XCircle size={14} className="shrink-0"/> {v}</div>)}
            </div>
-           <p className="text-slate-500 text-sm mb-8">This session has been terminated. Credits have been forfeited due to multiple security violations.</p>
+           <p className="text-slate-500 text-sm mb-8">Too many rule breaks, so the exam was stopped.</p>
            <button onClick={() => navigate('/')} className="bg-slate-700 hover:bg-slate-600 text-white px-10 py-3 rounded-xl font-bold transition-colors">Return to Dashboard</button>
         </div>
      );
@@ -317,7 +317,7 @@ export const ExamRoom: React.FC<Props> = ({ user, onUpdateUser }) => {
               <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 border-4 shadow-2xl ${passed ? 'border-green-500 text-green-400 shadow-green-900/20' : 'border-red-500 text-red-400 shadow-red-900/20'}`}>
                  {passed ? <Award size={48} /> : <XCircle size={48} />}
               </div>
-              <h1 className="text-4xl font-bold text-white mb-1">{passed ? "Credential Certified" : "Certification Failed"}</h1>
+              <h1 className="text-4xl font-bold text-white mb-1">{passed ? "You passed" : "You didn't pass"}</h1>
               <p className="text-slate-500 text-lg">{domain}</p>
            </div>
            <div className="grid grid-cols-3 gap-6 mb-12">

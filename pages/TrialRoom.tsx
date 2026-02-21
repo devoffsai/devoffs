@@ -248,8 +248,8 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-6">
         <Loader2 size={64} className="text-cyan-500 animate-spin" />
-        <h2 className="text-2xl font-bold text-white">Generating Competitive 10-Question Trial...</h2>
-        <p className="text-slate-400 max-w-md">Our AI is constructing 5 practical and 5 conceptual senior-level scenarios for {domain}.</p>
+        <h2 className="text-2xl font-bold text-white">Making your 10 questions...</h2>
+        <p className="text-slate-400 max-w-md">Hang tight. We're picking a mix of practical and concept questions for {domain}.</p>
       </div>
     );
   }
@@ -259,25 +259,25 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
     return (
       <div className="max-w-4xl mx-auto py-12 animate-fade-in">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Proctor Calibration</h1>
-          <p className="text-slate-400">Environment verification is required for competitive skill certification.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Quick camera check</h1>
+          <p className="text-slate-400">We just need a quick check before you start.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h3 className="text-lg font-bold text-white mb-4">AI Vision Feed</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Camera</h3>
             <div className="aspect-video bg-black rounded-xl overflow-hidden relative border border-slate-700 shadow-2xl">
               <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover transform scale-x-[-1]" />
               {!hasPermissions && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md">
                     <VideoOff size={32} className="text-slate-600 mb-2" />
-                    <span className="text-slate-400 text-sm font-medium">Camera Permissions Needed</span>
+                    <span className="text-slate-400 text-sm font-medium">Camera needed</span>
                 </div>
               )}
             </div>
             {!hasPermissions ? (
               <button onClick={startCamera} className="w-full mt-6 py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
-                <Video size={18} /> Enable Secure Feed
+                <Video size={18} /> Turn on camera
               </button>
             ) : (
               <button 
@@ -286,25 +286,25 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
                 className="w-full mt-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl border border-slate-600 transition-all flex items-center justify-center gap-2"
               >
                 {isAnalyzingEnv ? <Loader2 size={18} className="animate-spin" /> : <ShieldCheck size={18} />}
-                Perform Security Scan
+                Run quick check
               </button>
             )}
           </div>
 
           <div className="space-y-6">
             <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-               <h3 className="text-lg font-bold text-white mb-4">Security Parameters</h3>
+               <h3 className="text-lg font-bold text-white mb-4">What we're checking</h3>
                <div className="space-y-4">
                   <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.lighting ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
-                    <div className="flex items-center gap-3"><Sun size={20}/> <span className="text-sm font-bold uppercase">Optimal Lighting</span></div>
+                    <div className="flex items-center gap-3"><Sun size={20}/> <span className="text-sm font-bold uppercase">Good lighting</span></div>
                     {envCheck?.lighting && <CheckCircle size={16}/>}
                   </div>
                   <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.singlePerson ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
-                    <div className="flex items-center gap-3"><UserIcon size={20}/> <span className="text-sm font-bold uppercase">Single Participant</span></div>
+                    <div className="flex items-center gap-3"><UserIcon size={20}/> <span className="text-sm font-bold uppercase">One person</span></div>
                     {envCheck?.singlePerson && <CheckCircle size={16}/>}
                   </div>
                   <div className={`p-4 rounded-xl border flex items-center justify-between ${envCheck?.noDevices ? 'bg-green-900/20 border-green-500 text-green-400' : 'bg-slate-900/40 border-slate-700 text-slate-500'}`}>
-                    <div className="flex items-center gap-3"><Smartphone size={20}/> <span className="text-sm font-bold uppercase">No Mobile Devices</span></div>
+                    <div className="flex items-center gap-3"><Smartphone size={20}/> <span className="text-sm font-bold uppercase">No extra devices</span></div>
                     {envCheck?.noDevices && <CheckCircle size={16}/>}
                   </div>
                </div>
@@ -316,7 +316,7 @@ export const TrialRoom: React.FC<Props> = ({ domain, onComplete }) => {
               onClick={beginActiveTrial}
               className="w-full py-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xl font-bold rounded-2xl shadow-xl shadow-cyan-900/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
-              Start Certified Trial
+              Start trial
             </button>
           </div>
         </div>

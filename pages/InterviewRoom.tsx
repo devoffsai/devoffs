@@ -88,7 +88,7 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
         videoRef.current.srcObject = mediaStream;
       }
     } catch (err) {
-      alert("Camera and Microphone permissions are required for the AI Proctor to function.");
+      alert("Please allow camera and microphone access to continue.");
     }
   };
 
@@ -114,7 +114,7 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
          setEnvCheck(result);
        }
     } catch (e) {
-       setEnvCheck({ lighting: false, singlePerson: false, noDevices: false, feedback: "Neural analysis system encountered an error. Please retry." });
+       setEnvCheck({ lighting: false, singlePerson: false, noDevices: false, feedback: "Scan failed. Please try again." });
     } finally {
        setIsAnalyzingEnv(false);
     }
@@ -136,9 +136,9 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
           const base64 = canvas.toDataURL('image/jpeg', 0.6); 
           analyzeEnvironmentSnapshot(base64).then(result => {
              const violations: string[] = [];
-             if (!result.lighting) violations.push("Lighting Violation: Facial features obscured.");
-             if (!result.singlePerson) violations.push("Identity Violation: Multiple persons or absence detected.");
-             if (!result.noDevices) violations.push("Device Violation: Unauthorized electronic device in frame.");
+             if (!result.lighting) violations.push("Too dark. Please improve lighting.");
+             if (!result.singlePerson) violations.push("We need one person in view.");
+             if (!result.noDevices) violations.push("Please remove extra devices from view.");
              if (violations.length > 0) {
                  setCurrentRoundViolations(prev => Array.from(new Set([...prev, ...violations])));
              }
@@ -159,8 +159,8 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
     const handleCopyPaste = (e: ClipboardEvent) => e.preventDefault();
     const handleVisibility = () => {
       if (document.hidden && status === 'active') {
-         speak("INTEGRITY ALERT. Return to the interview window immediately.");
-         setCurrentRoundViolations(prev => [...prev, "Navigation Violation: Tab switching detected."]);
+         speak("Please come back to the interview window.");
+         setCurrentRoundViolations(prev => [...prev, "You switched tabs."]);
       }
     };
     if (status !== 'setup' && status !== 'summary') {
@@ -202,7 +202,7 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
   // 3. GAME FLOW
   const startInterview = async () => {
     setStatus('intro');
-    speak(`Initiating ${domain} assessment. You will be asked ${QUESTIONS_COUNT} technical questions. The AI Proctor is active and monitoring for integrity violations. Let us begin.`, () => {
+    speak(`Starting the ${domain} interview. You'll answer ${QUESTIONS_COUNT} questions. Let's begin.`, () => {
        nextQuestion(1);
     });
   };
@@ -252,8 +252,8 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
     if (currentRoundViolations.length > 0) {
        result = {
           score: 0,
-          feedback: `SECURITY VOID: Multiple integrity violations recorded: ${currentRoundViolations.join(" | ")}`,
-          spokenFeedback: "Integrity alert. This response has been invalidated due to security violations."
+          feedback: `This answer wasn't counted: ${currentRoundViolations.join(" | ")}`,
+          spokenFeedback: "I couldn't count that answer because of the checks. Let's continue."
        };
     }
     
@@ -276,7 +276,7 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
   const finishInterview = () => {
     setStatus('summary');
     setAiState('idle');
-    speak("Assessment concluded. The AI is finalizing your Skill DNA report based on your verbal performance and proctor logs.");
+    speak("All done. I'm preparing your summary now.");
   };
 
   const handleReturn = () => {
@@ -309,8 +309,8 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
     return (
       <div className="max-w-4xl mx-auto py-12 animate-fade-in">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-white mb-2">AI Voice Interview Protocol</h1>
-          <p className="text-slate-400">Environment verification and proctoring synchronization required.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">AI Voice Interview</h1>
+          <p className="text-slate-400">Please enable your camera and mic before you start.</p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -333,25 +333,25 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
 
             <div className="space-y-6">
                 <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col items-center shadow-xl">
-                    <h3 className="text-xl font-bold text-white mb-4">AI Vision Proctor</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">Camera Check</h3>
                     <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden mb-4 border-2 border-slate-700 shadow-2xl group">
                         <video ref={videoRef} autoPlay muted playsInline className="w-full h-full object-cover transform scale-x-[-1]" />
                         {!hasPermissions && (
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md">
                                 <VideoOff size={32} className="text-slate-600 mb-2" />
-                                <span className="text-slate-400 text-sm font-medium">Camera Sync Required</span>
+                                <span className="text-slate-400 text-sm font-medium">Camera needed</span>
                             </div>
                         )}
                         {hasPermissions && (
                            <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-red-600/20 text-red-500 rounded border border-red-500/30 text-[10px] font-bold animate-pulse">
-                              <RotateCw size={10} /> PROCTOR LIVE
+                              <RotateCw size={10} /> LIVE
                            </div>
                         )}
                     </div>
                     
                     {!hasPermissions ? (
                         <button onClick={startCamera} className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-cyan-900/20 flex items-center justify-center gap-2">
-                            <Video size={18} /> Initiate Hardware Sync
+                            <Video size={18} /> Turn on camera + mic
                         </button>
                     ) : (
                       <div className="w-full space-y-4">
@@ -394,10 +394,10 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
                   onClick={startInterview} 
                   className="w-full py-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-lg font-bold rounded-2xl shadow-xl shadow-cyan-900/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
                 >
-                    <Mic size={24} /> Enter Assessment Chamber
+                    <Mic size={24} /> Start interview
                 </button>
                 <p className="text-[10px] text-slate-500 text-center uppercase tracking-widest font-bold">
-                  Zero-Tolerance Anti-Cheat Protocols Active
+                  Anti-cheat checks are on
                 </p>
             </div>
         </div>
@@ -415,8 +415,8 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
                   <div className="absolute inset-0 border-8 border-cyan-500/20 rounded-full animate-ping"></div>
               </div>
               <div className="space-y-2">
-                  <h2 className="text-4xl font-bold text-white tracking-tight">Syncing Neural Interface...</h2>
-                  <p className="text-slate-400 text-lg">AI Voice Engine is calibrating for ${domain}.</p>
+                  <h2 className="text-4xl font-bold text-white tracking-tight">Getting things ready...</h2>
+                  <p className="text-slate-400 text-lg">Setting up for ${domain}.</p>
               </div>
           </div>
       );
@@ -473,16 +473,16 @@ export const InterviewRoom: React.FC<Props> = ({ onComplete }) => {
                      
                      <div className="absolute top-4 left-4 flex gap-2">
                         <div className="px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-slate-700 text-[10px] text-white font-mono flex items-center gap-1.5">
-                           <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
-                           SECURE FEED
-                        </div>
+                          <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+                          LIVE
+                       </div>
                      </div>
 
                      {currentRoundViolations.length > 0 && (
                         <div className="absolute inset-0 bg-red-900/20 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
                            <ShieldAlert size={64} className="text-red-500 mb-4 animate-bounce" />
                            <div className="bg-red-600 text-white px-6 py-3 rounded-xl shadow-2xl font-bold border-2 border-red-400 mb-4">
-                              INTEGRITY VIOLATION DETECTED
+                              Please fix this
                            </div>
                            <div className="space-y-1">
                               {currentRoundViolations.map((v, i) => (

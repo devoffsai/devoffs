@@ -123,7 +123,7 @@ export const ProfileView: React.FC<Props> = ({ user }) => {
               </div>
               {user.isCertified && (
                 <div className="flex items-center gap-3 text-sm text-yellow-400 font-bold bg-yellow-900/10 p-2 rounded border border-yellow-500/20">
-                   <Award size={16} /> Certified Engineer
+                   <Award size={16} /> Certified
                 </div>
               )}
             </div>
@@ -150,18 +150,18 @@ export const ProfileView: React.FC<Props> = ({ user }) => {
           
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
             <div className="flex justify-between items-center mb-6">
-               <h2 className="text-xl font-bold text-white">Skill DNA™ Verified</h2>
+               <h2 className="text-xl font-bold text-white">Your skill score</h2>
                <div className="text-right">
                  <div className="text-2xl font-bold text-cyan-400">
                     {hasHistory ? "Top " + (100 - (aggregateDNA.average > 0 ? Math.floor(aggregateDNA.average / 2) : 99)) + "%" : "N/A"}
                  </div>
-                 <div className="text-xs text-slate-500">Global Rank</div>
+                 <div className="text-xs text-slate-500">Rank</div>
                </div>
             </div>
             
             {!hasHistory ? (
               <div className="flex items-center justify-center py-12 text-slate-500 text-sm bg-slate-900/50 rounded-lg border border-slate-700 border-dashed">
-                 No verified skills yet. Complete trials to generate your DNA.
+                 Nothing here yet. Do a trial and you'll see your score.
               </div>
             ) : (
               <div className="flex flex-col md:flex-row items-center gap-8">
@@ -179,7 +179,7 @@ export const ProfileView: React.FC<Props> = ({ user }) => {
           </div>
 
           <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
-            <h3 className="text-lg font-bold text-white mb-4">Recent Verified Trials</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Recent trials</h3>
             <div className="space-y-3">
               {!hasHistory ? (
                  <div className="text-slate-500 text-sm">No activity recorded.</div>

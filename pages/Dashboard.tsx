@@ -62,7 +62,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
         domain: h.domain,
         date: h.endTime || h.startTime || Date.now(),
         score: h.score?.average || 0,
-        status: (h.score?.average || 0) >= 60 ? 'Verified' : 'Failed',
+        status: (h.score?.average || 0) >= 60 ? 'Passed' : 'Failed',
         id: h.id
       });
     });
@@ -75,7 +75,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
             domain: e.domain,
             date: e.endTime || e.startTime,
             score: e.overallScore,
-            status: e.status === 'completed' ? 'Certified' : 'Failed',
+            status: e.status === 'completed' ? 'Passed' : 'Failed',
             id: e.id
          });
        });
@@ -86,7 +86,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
             domain: 'Engineering Certification',
             date: Date.now(),
             score: 95, 
-            status: 'Certified',
+            status: 'Passed',
             id: 'cert-1'
          });
     }
@@ -116,7 +116,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
   };
 
   const getStatusColor = (status: string) => {
-    if (status === 'Verified' || status === 'Certified') return 'text-green-400 bg-green-900/20 border-green-500/30';
+    if (status === 'Passed') return 'text-green-400 bg-green-900/20 border-green-500/30';
     return 'text-red-400 bg-red-900/20 border-red-500/30';
   };
 
@@ -147,9 +147,9 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <TrendingUp className="text-cyan-400" />
-                Your Skill DNA™ Matrix
+                Your skill score
               </h2>
-              <span className="text-xs font-mono text-cyan-400 bg-cyan-950 px-2 py-1 rounded">LIVE UPDATED</span>
+              <span className="text-xs font-mono text-cyan-400 bg-cyan-950 px-2 py-1 rounded">UPDATING</span>
             </div>
             
             {!hasHistory ? (
@@ -157,8 +157,8 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                  <div className="p-4 bg-slate-800 rounded-full mb-4">
                     <TrendingUp className="text-slate-500" size={32} />
                  </div>
-                 <h3 className="text-lg font-medium text-white mb-2">No Skill DNA Generated Yet</h3>
-                 <p className="text-slate-400 text-sm max-w-sm">Complete your first skill trial to generate your verified AI performance matrix.</p>
+                 <h3 className="text-lg font-medium text-white mb-2">No scores yet</h3>
+                 <p className="text-slate-400 text-sm max-w-sm">Do your first trial and we'll show your score here.</p>
               </div>
             ) : (
               <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -168,7 +168,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                 <div className="w-full md:w-1/2 space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-slate-300">
-                      <span>Global Percentile</span>
+                      <span>Your rank</span>
                       <span className="text-white font-bold">Top {100 - (aggregateDNA.average > 0 ? Math.floor(aggregateDNA.average / 2) : 99)}%</span>
                     </div>
                     <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -177,7 +177,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-slate-300">
-                      <span>Consistency Score</span>
+                      <span>Consistency</span>
                       <span className="text-white font-bold">{Math.min(100, 80 + (user.history?.length || 0) * 2)}/100</span>
                     </div>
                     <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -186,7 +186,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                   </div>
                   <div className="p-4 bg-slate-700/50 rounded-lg border border-slate-600">
                     <p className="text-sm text-slate-300 italic">
-                      "Analysis based on {user.history?.length} verified trials. Continue benchmarking to improve precision."
+                      "Based on {user.history?.length} trials. Do a few more to get a better score."
                     </p>
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
           {/* Verification & Activity Log (UPDATED) */}
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
             <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-               <ShieldCheck className="text-green-400" /> Verification & Activity Log
+               <ShieldCheck className="text-green-400" /> Your activity
             </h3>
             
             {/* Summary Stats Row */}
@@ -210,15 +210,15 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                </div>
                
                {/* Exams */}
-               <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
-                  <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">Comp. Exams</div>
-                  <div className={`text-2xl font-bold ${activityStats.exams > 0 ? 'text-yellow-400' : 'text-slate-600'}`}>{activityStats.exams}</div>
-                  <div className="text-[10px] text-slate-500">{activityStats.exams > 0 ? 'Certified' : 'Not Taken'}</div>
-               </div>
+                  <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
+                    <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">Exams</div>
+                    <div className={`text-2xl font-bold ${activityStats.exams > 0 ? 'text-yellow-400' : 'text-slate-600'}`}>{activityStats.exams}</div>
+                    <div className="text-[10px] text-slate-500">{activityStats.exams > 0 ? 'Done' : 'Not yet'}</div>
+                  </div>
 
                {/* Arena */}
-               <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
-                  <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">Arena Wins</div>
+                  <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
+                    <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">Arena Wins</div>
                   <div className="flex items-baseline gap-1">
                      <span className="text-2xl font-bold text-purple-400">{activityStats.arenaWinsPublic}</span>
                      <span className="text-[10px] text-slate-500">Pub</span>
@@ -226,20 +226,20 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                      <span className="text-xl font-bold text-slate-500">{activityStats.arenaWinsPrivate}</span>
                      <span className="text-[10px] text-slate-500">Pvt</span>
                   </div>
-                  <div className="text-[10px] text-slate-500">Competitive</div>
-               </div>
+                    <div className="text-[10px] text-slate-500">Wins</div>
+                  </div>
 
                {/* Interviews */}
-               <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
-                  <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">AI Interviews</div>
-                  <div className="text-2xl font-bold text-cyan-400">{activityStats.interviews}</div>
-                  <div className="text-[10px] text-slate-500">Assessments</div>
-               </div>
+                  <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center">
+                    <div className="text-slate-400 text-[10px] uppercase font-bold mb-1 tracking-wider">Interviews</div>
+                    <div className="text-2xl font-bold text-cyan-400">{activityStats.interviews}</div>
+                    <div className="text-[10px] text-slate-500">Done</div>
+                  </div>
             </div>
 
             <div className="overflow-x-auto">
               {!activities.length ? (
-                <div className="text-slate-500 text-sm text-center py-8">No verified activity yet. Start a trial or interview to build your history.</div>
+                <div className="text-slate-500 text-sm text-center py-8">Nothing here yet. Start a trial or interview and it'll show up.</div>
               ) : (
                 <table className="w-full text-left">
                   <thead>
@@ -266,7 +266,7 @@ export const Dashboard: React.FC<Props> = ({ user, onStartTrial }) => {
                         <td className="py-4 text-slate-400 text-sm">{new Date(item.date).toLocaleDateString()}</td>
                         <td className="py-4">
                            <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase border flex w-fit items-center gap-1 ${getStatusColor(item.status)}`}>
-                              {item.status === 'Verified' || item.status === 'Certified' ? <CheckCircle size={10} /> : <XCircle size={10} />}
+                              {item.status === 'Passed' ? <CheckCircle size={10} /> : <XCircle size={10} />}
                               {item.status}
                            </span>
                         </td>
