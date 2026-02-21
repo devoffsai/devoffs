@@ -1,54 +1,87 @@
-
-```md
-# Devoffs
+# 🚀 Devoffs
 
 Devoffs is a **Vite + React + TypeScript** app for **skill trials**, **coding races**, and **certification-style exams**, with AI feedback.
 
-## Live URL
-- https://devoffs-gamma.vercel.app/
+---
+
+## 🌐 Live URL
+
+🔗 https://devoffs-gamma.vercel.app/
 
 ---
 
-## Key Features
+# ✨ Key Features
 
-### Core Experience
-- **Dashboard**
-  - See your score and your recent activity (trials, interviews, exams)
-- **Profile Setup + Profile Page**
-  - Save your info (skills, location, etc.)
-  - View your score section and recent trial history
+---
 
-### Skill Trial (Timed)
+## 🏠 Core Experience
+
+### 📊 Dashboard
+- See your score and your recent activity (trials, interviews, exams)
+
+### 👤 Profile Setup + Profile Page
+- Save your info (skills, location, etc.)
+- View your score section and recent trial history
+
+---
+
+## ⏱ Skill Trial (Timed)
+
 - Start a trial in a selected domain
 - **Camera check** before starting
 - Timed questions + workspace to type answers
 - Results screen with score + notes
 - Basic anti-cheat signals (tab switches, copy/paste, etc.)
 
-### Arena (Coding Races)
-- **Public match**
-  - Pick a domain, find a match, race in real time
-- **Private match**
-  - Create a session code, join with code from another device, start together
+---
+
+## 🏁 Arena (Coding Races)
+
+### 🌍 Public Match
+- Pick a domain, find a match, race in real time
+
+### 🔒 Private Match
+- Create a session code
+- Join with code from another device
+- Start together
+
+### 🏆 Results
 - Results screen showing placement
 
-### Certification Exam (High-stakes, Multi-part)
+---
+
+## 🎓 Certification Exam (High-Stakes, Multi-Part)
+
 - **Camera check** before starting
 - Pick an exam domain and complete:
-  - Part 1: MCQs
-  - Part 2: short answers
-  - Part 3: coding tasks
+
+### 📝 Part 1: MCQs
+
+### ✍️ Part 2: Short Answers
+
+### 💻 Part 3: Coding Tasks
+
 - Rule-break tracking (tab switches, copy/paste, etc.)
 - Results screen (pass/fail + notes)
 
-### Leaderboard
+---
+
+## 🏆 Leaderboard
+
 - Sort/rank by:
   - Score
   - Arena wins
   - Trials completed
-- Filter by timeframe (weekly/monthly/all time) and domain
+- Filter by timeframe:
+  - Weekly
+  - Monthly
+  - All time
+- Filter by domain
 
-### Talent Search
+---
+
+## 🔎 Talent Search
+
 - Search candidates by name/username/skill
 - Filter by:
   - Domain
@@ -59,120 +92,57 @@ Devoffs is a **Vite + React + TypeScript** app for **skill trials**, **coding ra
 
 ---
 
-## Tech Stack
+# 🛠 Tech Stack
+
 - **Frontend**: React + TypeScript + Vite
 - **Auth/DB**: Supabase
 - **AI**: Google Gemini (client-side API key)
 
 ---
 
-## Local Setup
+# ⚙️ Local Setup
 
-### 1) Install dependencies
+## 1️⃣ Install Dependencies
+
 ```bash
 npm install
 ```
 
-### 2) Add environment variables
-Create a `.env.local` file in the project root:
+## 2️⃣ Run the Development Server
 
-```bash
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-API_KEY=your_gemini_api_key
-```
-
-Notes:
-- `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are required.
-- `API_KEY` is used for Gemini.
-- Gemini is currently called from the browser, so **the API key will be visible** in devtools/network.
-
-### 3) Run the app
 ```bash
 npm run dev
 ```
 
-### 4) Build for production
+## 3️⃣ Build for Production
+
 ```bash
 npm run build
 ```
 
----
+## 4️⃣ Preview Production Build
 
-## Deploy (Vercel)
-
-### Vercel project settings
-- **Framework Preset**: Vite
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-
-### Vercel Environment Variables
-Add these in Vercel (set for **Production** + **Preview**):
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-- `API_KEY`
-
-### Supabase redirect URLs (important)
-In **Supabase Dashboard → Auth → URL Configuration**:
-- **Site URL**
-  - `https://devoffs-gamma.vercel.app`
-- **Additional Redirect URLs**
-  - `https://devoffs-gamma.vercel.app/**`
-  - `http://localhost:5173/**`
-
----
-
-## Testing Checklist
-
-### Login
-- Open the app
-- Log in
-- Log out
-- Try opening a protected page while logged out (should redirect to login)
-
-### Profile
-- Complete profile setup
-- Confirm profile info is saved after refresh
-
-### Dashboard
-- Confirm dashboard loads
-- Confirm empty states work (no crashes)
-
-### Skill Trial
-- Start a trial
-- Allow camera access
-- Run camera check
-- Answer questions
-- Finish and submit
-- Confirm result shows and appears in history
-
-### Arena
-- Open Arena
-- Allow camera + run check
-- Public match: click **Find a match**
-- Private match: create code, join from another device, start, finish
-
-### Exam
-- Open Exam
-- Allow camera + run check
-- Pick domain
-- Complete MCQ, short answers, and coding tasks
-- Finish and confirm results
-
-### Leaderboard
-- Open Leaderboard
-- Switch metric and timeframe
-
-### Talent Search
-- Search and change filters
-- Open a candidate modal and close it
-
----
-
-## Reporting Issues
-If something breaks, capture:
-- what page you were on
-- what you clicked
-- a screenshot (or screen recording)
-- browser console errors (if possible)
+```bash
+npm run preview
 ```
+
+---
+
+# 📦 Deployment
+
+The project is deployed on **Vercel**.
+
+Live URL:
+👉 https://devoffs-gamma.vercel.app/
+
+---
+
+# 📄 License
+
+This project is for educational and experimental purposes.
+
+---
+
+# 👨‍💻 Author
+
+Built with ❤️ using React, Supabase, and Gemini AI.
