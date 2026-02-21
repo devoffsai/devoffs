@@ -1,0 +1,8 @@
+{
+  "name": "Devoffs",
+  "description": "A live, anti-cheat platform replacing resumes with verified skill trials and AI-generated Skill DNA scores.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
